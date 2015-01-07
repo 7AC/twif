@@ -27,10 +27,15 @@ def search( ts, keywords, maxAge=600, debug=False ):
             break
 
 parser = argparse.ArgumentParser()
-parser.add_argument( '--consumer-key', help='Twitter API consumer key' )
-parser.add_argument( '--consumer-secret', help='Twitter API consumer secret' )
-parser.add_argument( '--access-token', help='Twitter API access token' )
-parser.add_argument( '--access-token-secret',
+parser.add_argument( 'keywords', metavar='KEYWORDS', nargs='+',
+                     help='search keywords' )
+parser.add_argument( '--consumer-key', required=True,
+                     help='Twitter API consumer key' )
+parser.add_argument( '--consumer-secret', required=True,
+                     help='Twitter API consumer secret' )
+parser.add_argument( '--access-token', required=True,
+                     help='Twitter API access token' )
+parser.add_argument( '--access-token-secret', required=True,
                      help='Twitter API access token secret' )
 parser.add_argument( '-d', '--debug', action='store_true', help='debug mode' )
 parser.add_argument( '-k', '--keyword', action='append', help='keyword to search' )
@@ -42,4 +47,4 @@ ts = TwitterSearch( consumer_key=args.consumer_key,
                     consumer_secret=args.consumer_secret,
                     access_token=args.access_token,
                     access_token_secret=args.access_token_secret )
-search( ts, args.keyword, maxAge=args.max_age * 60, debug=args.debug )
+search( ts, args.keywords, maxAge=args.max_age * 60, debug=args.debug )
