@@ -5,11 +5,11 @@ A wrapper around [TwitterSearch](https://github.com/ckoepp/TwitterSearch) and [p
 ```
 usage: twif.py [-h] --consumer-key CONSUMER_KEY --consumer-secret
                CONSUMER_SECRET --access-token ACCESS_TOKEN
-               --access-token-secret ACCESS_TOKEN_SECRET [-k KEYWORD] [-v]
-               KEYWORDS [KEYWORDS ...]
+               --access-token-secret ACCESS_TOKEN_SECRET [-v]
+               KEYWORD [KEYWORD ...]
 
 positional arguments:
-  KEYWORDS              search keywords
+  KEYWORD               search keyword
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -21,8 +21,6 @@ optional arguments:
                         Twitter API access token
   --access-token-secret ACCESS_TOKEN_SECRET
                         Twitter API access token secret
-  -k KEYWORD, --keyword KEYWORD
-                        keyword to search
   -v, --verbose         verbose mode
 ```
 

@@ -51,8 +51,8 @@ def search( ts, keywords, verbose=False, debug=False ):
                f.write( lastNewTweetDateStr )
 
 parser = argparse.ArgumentParser()
-parser.add_argument( 'keywords', metavar='KEYWORDS', nargs='+',
-                     help='search keywords' )
+parser.add_argument( 'keyword', metavar='KEYWORD', nargs='+',
+                     help='search keyword' )
 parser.add_argument( '--consumer-key', required=True,
                      help='Twitter API consumer key' )
 parser.add_argument( '--consumer-secret', required=True,
@@ -62,7 +62,6 @@ parser.add_argument( '--access-token', required=True,
 parser.add_argument( '--access-token-secret', required=True,
                      help='Twitter API access token secret' )
 parser.add_argument( '-d', '--debug', action='store_true', help=argparse.SUPPRESS )
-parser.add_argument( '-k', '--keyword', action='append', help='keyword to search' )
 parser.add_argument( '-v', '--verbose', action='store_true', help='verbose mode' )
 args = parser.parse_args()
 
@@ -71,7 +70,7 @@ try:
                        consumer_secret=args.consumer_secret,
                        access_token=args.access_token,
                        access_token_secret=args.access_token_secret )
-   search( ts, args.keywords, verbose=args.verbose, debug=args.debug )
+   search( ts, args.keyword, verbose=args.verbose, debug=args.debug )
 except requests.exceptions.ConnectionError, e:
    if args.verbose:
       print e
