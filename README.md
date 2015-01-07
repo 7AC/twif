@@ -6,7 +6,7 @@ A wrapper around [TwitterSearch](https://github.com/ckoepp/TwitterSearch) and [p
 usage: twif.py [-h] --consumer-key CONSUMER_KEY --consumer-secret
                CONSUMER_SECRET --access-token ACCESS_TOKEN
                --access-token-secret ACCESS_TOKEN_SECRET [-d] [-k KEYWORD]
-               [-m MINUTES]
+               [-v]
                KEYWORDS [KEYWORDS ...]
 
 positional arguments:
@@ -25,6 +25,5 @@ optional arguments:
   -d, --debug           debug mode
   -k KEYWORD, --keyword KEYWORD
                         keyword to search
-  -m MINUTES, --max-age MINUTES
-                        maximum tweet age
+  -v, --verbose         verbose mode
 ```
