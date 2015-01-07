@@ -33,4 +33,4 @@ twif.py --consumer-key aaabbb --consumer-secret cccddd \
         <keyword> ...
 ```
 
-To obtain a the key and token to access the Twitter API you need to register at [apps.twitter.com](https://apps.twitter.com).
+To obtain a key and token to access the Twitter API you need to register at [apps.twitter.com](https://apps.twitter.com).
