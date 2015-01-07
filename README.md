@@ -5,8 +5,7 @@ A wrapper around [TwitterSearch](https://github.com/ckoepp/TwitterSearch) and [p
 ```
 usage: twif.py [-h] --consumer-key CONSUMER_KEY --consumer-secret
                CONSUMER_SECRET --access-token ACCESS_TOKEN
-               --access-token-secret ACCESS_TOKEN_SECRET [-d] [-k KEYWORD]
-               [-m MINUTES]
+               --access-token-secret ACCESS_TOKEN_SECRET [-k KEYWORD] [-v]
                KEYWORDS [KEYWORDS ...]
 
 positional arguments:
@@ -22,9 +21,18 @@ optional arguments:
                         Twitter API access token
   --access-token-secret ACCESS_TOKEN_SECRET
                         Twitter API access token secret
-  -d, --debug           debug mode
   -k KEYWORD, --keyword KEYWORD
                         keyword to search
-  -m MINUTES, --max-age MINUTES
-                        maximum tweet age
+  -v, --verbose         verbose mode
 ```
+
+Sample usage:
+```
+twif.py --consumer-key aaabbb --consumer-secret cccddd \
+
+        --access-token 111222 --access-token-secret 333444 \
+
+        <keyword> ...
+```
+
+To obtain a the key and token to access the Twitter API you need to register at [apps.twitter.com](https://apps.twitter.com).

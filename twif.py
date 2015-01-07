@@ -20,6 +20,7 @@ def search( ts, keywords, verbose=False, debug=False ):
    tso.set_include_entities( False )
    title = ' '.join( keywords )
    lastTweetDate = datetime.min
+   # Read context
    if os.path.exists( twifFile ):
       with open( twifFile ) as f:
          lastTweetDate = strptime( f.read() )
@@ -34,7 +35,7 @@ def search( ts, keywords, verbose=False, debug=False ):
             lastNewTweetDateStr = dateStr
          tid = tweet[ 'id' ]
          screenName = tweet[ 'user' ][ 'screen_name' ]
-         # @<name>: <text>, and ignore \u2026 in it
+         # Ignore \u2026
          text = ''.join( [ i if ord( i ) < 128 else '' for i in tweet[ 'text' ] ] )
          url = 'http://twitter.com/%s/status/%d' % ( screenName, tid )
          Notifier.notify( text, title=title, subtitle='@%s' % screenName,
@@ -44,6 +45,7 @@ def search( ts, keywords, verbose=False, debug=False ):
             print url
          if debug:
             break
+         # Write context
          if lastNewTweetDateStr:
             with open( twifFile, 'w' ) as f:
                f.write( lastNewTweetDateStr )
@@ -59,7 +61,7 @@ parser.add_argument( '--access-token', required=True,
                      help='Twitter API access token' )
 parser.add_argument( '--access-token-secret', required=True,
                      help='Twitter API access token secret' )
-parser.add_argument( '-d', '--debug', action='store_true', help='debug mode' )
+parser.add_argument( '-d', '--debug', action='store_true', help=argparse.SUPPRESS )
 parser.add_argument( '-k', '--keyword', action='append', help='keyword to search' )
 parser.add_argument( '-v', '--verbose', action='store_true', help='verbose mode' )
 args = parser.parse_args()
