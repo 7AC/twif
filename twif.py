@@ -35,18 +35,15 @@ def search( ts, keywords, verbose=False, debug=False ):
             lastNewTweetDateStr = dateStr
          tid = tweet[ 'id' ]
          screenName = tweet[ 'user' ][ 'screen_name' ]
-         # Ignore \u2026
-         text = ''.join( [ i if ord( i ) < 128 else '' for i in tweet[ 'text' ] ] )
+         text = tweet[ 'text' ].encode( 'ascii', 'replace' )
          url = 'http://twitter.com/%s/status/%d' % ( screenName, tid )
          Notifier.notify( text, title=title, subtitle='@%s' % screenName,
                           sender='com.twitter.twitter-mac',
                           activate='com.apple.Safari', open=url )
          if verbose:
             print url
-         if debug:
-            break
          # Write context
-         if lastNewTweetDateStr:
+         if not debug and lastNewTweetDateStr:
             with open( twifFile, 'w' ) as f:
                f.write( lastNewTweetDateStr )
 
