@@ -35,13 +35,14 @@ def search( ts, keywords, verbose=False, debug=False ):
             lastNewTweetDateStr = dateStr
          tid = tweet[ 'id' ]
          screenName = tweet[ 'user' ][ 'screen_name' ]
+         # Convert to ASCII for Notifier
          text = tweet[ 'text' ].encode( 'ascii', 'replace' )
          url = 'http://twitter.com/%s/status/%d' % ( screenName, tid )
          Notifier.notify( text, title=title, subtitle='@%s' % screenName,
                           sender='com.twitter.twitter-mac',
                           activate='com.apple.Safari', open=url )
          if verbose:
-            print url
+            print '@%s:' % screenName, text
          # Write context
          if not debug and lastNewTweetDateStr:
             with open( twifFile, 'w' ) as f:
