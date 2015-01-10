@@ -7,7 +7,9 @@ from datetime import datetime
 import os
 import requests
 
-twifFile = os.path.expanduser( '~' ) + '/.twif'
+twifDir = os.path.expanduser( '~' ) + '/.twif/'
+historyFile = twifDir + 'history'
+blacklistFile = twifDir + 'blacklist'
 
 def strptime( timestamp ):
    '''Parse timestamps in the format used by Twitter'''
@@ -20,10 +22,17 @@ def search( ts, keywords, verbose=False, debug=False ):
    tso.set_include_entities( False )
    title = ' '.join( keywords )
    lastTweetDate = datetime.min
+   if not os.path.exists( twifDir ):
+      os.mkdir( twifDir )
    # Read context
-   if os.path.exists( twifFile ):
-      with open( twifFile ) as f:
+   if os.path.exists( historyFile ):
+      with open( historyFile ) as f:
          lastTweetDate = strptime( f.read() )
+   blacklist = []
+   if os.path.exists( blacklistFile ):
+      with open( blacklistFile ) as f:
+         blacklist = [ user for user in f.read().split( '\n' ) \
+                            if user.startswith( '@' ) ]
    lastNewTweetDate = datetime.min
    lastNewTweetDateStr = None
    for tweet in ts.search_tweets_iterable( tso ):
@@ -35,6 +44,8 @@ def search( ts, keywords, verbose=False, debug=False ):
             lastNewTweetDateStr = dateStr
          tid = tweet[ 'id' ]
          screenName = tweet[ 'user' ][ 'screen_name' ]
+         if '@' + screenName in blacklist:
+            continue
          # Convert to ASCII for Notifier
          text = tweet[ 'text' ].encode( 'ascii', 'ignore' )
          url = 'http://twitter.com/%s/status/%d' % ( screenName, tid )
@@ -43,10 +54,10 @@ def search( ts, keywords, verbose=False, debug=False ):
                           activate='com.apple.Safari', open=url )
          if verbose:
             print '@%s:' % screenName, text
-         # Write context
-         if not debug and lastNewTweetDateStr:
-            with open( twifFile, 'w' ) as f:
-               f.write( lastNewTweetDateStr )
+   # Write context
+   if not debug and lastNewTweetDateStr:
+      with open( historyFile, 'w' ) as f:
+         f.write( lastNewTweetDateStr )
 
 parser = argparse.ArgumentParser()
 parser.add_argument( 'keyword', metavar='KEYWORD', nargs='+',
