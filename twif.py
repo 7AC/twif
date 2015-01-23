@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from pync import Notifier
-from TwitterSearch import TwitterSearch, TwitterSearchOrder
+from TwitterSearch import TwitterSearch, TwitterSearchOrder, TwitterSearchException
 import argparse
 from datetime import datetime
 import os
@@ -80,6 +80,7 @@ try:
                        access_token=args.access_token,
                        access_token_secret=args.access_token_secret )
    search( ts, args.keyword, verbose=args.verbose, debug=args.debug )
-except requests.exceptions.ConnectionError, e:
+except ( requests.exceptions.ConnectionError,
+         TwitterSearchException.TwitterSearchException ), e:
    if args.verbose:
       print e
