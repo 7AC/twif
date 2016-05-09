@@ -19,7 +19,7 @@ def strptime(timestamp):
     '''Parse timestamps in the format used by Twitter'''
     return datetime.strptime(timestamp, '%a %b %d %H:%M:%S +0000 %Y')
 
-def search(twitter_search, keywords, verbose=False, debug=False):
+def search(twitter_search, keywords, verbose=False, debug=False, reset=False):
     '''Search for the specified keywords and notify'''
     # pylint: disable=too-many-locals
     tso = TwitterSearchOrder()
@@ -47,6 +47,8 @@ def search(twitter_search, keywords, verbose=False, debug=False):
             if date > last_new_tweet_date:
                 last_new_tweet_date = date
                 last_new_tweet_date_str = date_str
+            if reset:
+                continue
             tid = tweet['id']
             screen_name = tweet['user']['screen_name']
             if '@' + screen_name in blacklist:
@@ -77,6 +79,8 @@ def main():
                         help='Twitter API access token')
     parser.add_argument('--access-token-secret', required=True,
                         help='Twitter API access token secret')
+    parser.add_argument('--reset', action='store_true',
+                        help='Reset the timestamp and notify only about new tweets')
     parser.add_argument('-d', '--debug', action='store_true', help=argparse.SUPPRESS)
     parser.add_argument('-v', '--verbose', action='store_true', help='verbose mode')
     args = parser.parse_args()
@@ -87,7 +91,8 @@ def main():
             consumer_secret=args.consumer_secret,
             access_token=args.access_token,
             access_token_secret=args.access_token_secret)
-        search(twitter_search, args.keyword, verbose=args.verbose, debug=args.debug)
+        search(twitter_search, args.keyword, verbose=args.verbose,
+               debug=args.debug, reset=args.reset)
     except (requests.exceptions.ConnectionError,
             TwitterSearchException), exception:
         if args.verbose:
