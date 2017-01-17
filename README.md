@@ -30,10 +30,15 @@ twif.py --consumer-key aaabbb --consumer-secret cccddd \
 
         --access-token 111222 --access-token-secret 333444 \
 
-        <keyword> ...
+        \$TWTR
 ```
+
+results in:
+
+![preview](preview.png)
+
+Stick that in a `cron` job and you're done!
 
 You can also blacklist users by adding them to `~/.twif/blacklist`.
 
 To obtain a key and token to access the Twitter API you need to register at [apps.twitter.com](https://apps.twitter.com).
-
